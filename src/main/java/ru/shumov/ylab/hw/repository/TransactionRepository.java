@@ -1,6 +1,7 @@
 package ru.shumov.ylab.hw.repository;
 
 import lombok.SneakyThrows;
+import org.postgresql.util.PSQLException;
 import ru.shumov.ylab.hw.entity.Transaction;
 import ru.shumov.ylab.hw.enums.TransactionType;
 import ru.shumov.ylab.hw.service.Connector;
@@ -18,7 +19,7 @@ public class TransactionRepository {
     private final Connection connection = Connector.connectionDB();
     @SneakyThrows
     public void persist(Transaction transaction) {
-        final String query = "INSERT INTO users VALUES(?, ?, ?, ?)";
+        final String query = "INSERT INTO transactions VALUES(?, ?, ?, ?)";
         final PreparedStatement statement = connection.prepareStatement(query);
         statement.setString(1, transaction.getTransactionId());
         statement.setString(2, transaction.getUserId());
@@ -32,7 +33,7 @@ public class TransactionRepository {
         final String query = "SELECT * FROM transactions WHERE transaction_id=?";
         final PreparedStatement statement = connection.prepareStatement(query);
         statement.setString(1, transaction_id);
-        final ResultSet resultSet = statement.getResultSet();
+        final ResultSet resultSet = statement.executeQuery();
         resultSet.next();
         Transaction transaction = fetch(resultSet);
         if(transaction == null) {
@@ -46,7 +47,7 @@ public class TransactionRepository {
         final String query = "SELECT * FROM transactions WHERE user_id=?";
         final PreparedStatement statement = connection.prepareStatement(query);
         statement.setString(1, user_id);
-        final ResultSet resultSet = statement.getResultSet();
+        final ResultSet resultSet = statement.executeQuery();
         while(resultSet.next()){
             transactions.add(fetch(resultSet));
         }
@@ -57,13 +58,13 @@ public class TransactionRepository {
         final String query = "SELECT * FROM transactions WHERE transaction_id=?";
         final PreparedStatement statement = connection.prepareStatement(query);
         statement.setString(1, transaction_id);
-        final ResultSet resultSet = statement.getResultSet();
+        final ResultSet resultSet = statement.executeQuery();
         resultSet.next();
         return fetch(resultSet);
     }
     @SneakyThrows
     public void merge(String id, Transaction transaction) {
-        final String query = "UPDATE transactions TO transaction_user_id=?, transaction_amount=?, transaction_type=? WHERE transaction_id=?";
+        final String query = "UPDATE transactions SET user_id=?, transaction_amount=?, transaction_type=? WHERE transaction_id=?";
         final PreparedStatement statement = connection.prepareStatement(query);
         statement.setString(1, transaction.getUserId());
         statement.setDouble(2, transaction.getAmount());
@@ -75,12 +76,17 @@ public class TransactionRepository {
 
     @SneakyThrows
     private Transaction fetch(ResultSet row) {
-        if(row == null) return null;
-        final Transaction transaction = new Transaction();
-        transaction.setTransactionId(row.getString(ID_FIELD));
-        transaction.setUserId(row.getString(USER_ID_FIELD));
-        transaction.setAmount(row.getDouble(AMOUNT_FIELD));
-        transaction.setTransactionType(TransactionType.valueOf(row.getString(TYPE_FIELD)));
-        return transaction;
+        try {
+            if (row == null) return null;
+            final Transaction transaction = new Transaction();
+            transaction.setTransactionId(row.getString(ID_FIELD));
+            transaction.setUserId(row.getString(USER_ID_FIELD));
+            transaction.setAmount(row.getDouble(AMOUNT_FIELD));
+            transaction.setTransactionType(TransactionType.valueOf(row.getString(TYPE_FIELD)));
+            return transaction;
+        }
+        catch (PSQLException e) {
+            return null;
+        }
     }
 }

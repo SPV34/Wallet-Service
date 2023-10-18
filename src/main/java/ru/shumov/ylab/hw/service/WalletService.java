@@ -34,7 +34,7 @@ public class WalletService {
         transaction.setUserId(user.getUserID());
         transaction.setAmount(Double.parseDouble(amount));
         transaction.setTransactionType(TransactionType.CREDIT);
-        transactionRepository.merge(id, transaction);
+        transactionRepository.persist(transaction);
         user.setBalance(transaction.getAmount() + user.getBalance());
     }
 
@@ -44,7 +44,7 @@ public class WalletService {
         transaction.setUserId(user.getUserID());
         transaction.setAmount(Double.parseDouble(amount));
         transaction.setTransactionType(TransactionType.DEBIT);
-        transactionRepository.merge(id, transaction);
+        transactionRepository.persist(transaction);
         user.setBalance(user.getBalance() - transaction.getAmount());
     }
 
