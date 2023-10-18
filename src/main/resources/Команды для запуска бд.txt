@@ -1,0 +1,4 @@
+Для запуска:
+docker-compose --project-name my-postgres-project up
+Для остановки:
+docker-compose --project-name my-postgres-project down

@@ -64,7 +64,6 @@ public class AuditRepository {
         if(row == null) return null;
         final Operation operation = new Operation();
         final Transaction transaction = new Transaction();
-        row.next();
         operation.setId(row.getString(ID_FIELD));
         operation.setUserId(row.getString(USER_ID_FIELD));
         operation.setOperationType(OperationType.valueOf(row.getString(TYPE_FIELD).toUpperCase()));
