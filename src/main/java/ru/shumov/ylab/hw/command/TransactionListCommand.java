@@ -10,6 +10,7 @@ import ru.shumov.ylab.hw.service.WalletService;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class TransactionListCommand extends AbstractCommand{
     private String name = "transaction list";
@@ -33,7 +34,7 @@ public class TransactionListCommand extends AbstractCommand{
             System.out.println("Access denied.");
             return;
         }
-        ArrayList<Transaction> transactionArrayList = walletService.getList(user);
+        List<Transaction> transactionArrayList = walletService.getList(user);
         for (Transaction transaction : transactionArrayList) {
             System.out.println(transaction.toString());
         }

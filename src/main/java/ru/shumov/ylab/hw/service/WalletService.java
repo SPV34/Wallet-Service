@@ -8,6 +8,7 @@ import ru.shumov.ylab.hw.repository.TransactionRepository;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 public class WalletService {
     private final TransactionRepository transactionRepository;
@@ -20,15 +21,8 @@ public class WalletService {
         return transactionRepository.checkKey(id);
     }
 
-    public ArrayList<Transaction> getList(User user) {
-        Collection<Transaction> transactions = transactionRepository.getList();
-        ArrayList<Transaction> transactionArrayList = new ArrayList<>();
-        for(Transaction transaction : transactions) {
-            if(transaction.getUserId().equals(user.getUserID())){
-                transactionArrayList.add(transaction);
-            }
-        }
-        return transactionArrayList;
+    public List<Transaction> getList(User user) {
+        return transactionRepository.getList(user.getUserID());
     }
 
     public Transaction findOne(String id) {

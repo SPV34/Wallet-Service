@@ -1,0 +1,80 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
+    <changeSet id="1" author="admin">
+        <createTable tableName="users">
+            <column name="user_id" type="VARCHAR">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="login" type="VARCHAR"/>
+            <column name="user_password" type="VARCHAR"/>
+            <column name="user_balance" type="DOUBLE"/>
+            <column name="user_status" type="VARCHAR"/>
+            <column name="user_role" type="VARCHAR"/>
+        </createTable>
+        <insert tableName="users">
+            <column name="user_id" value="1"/>
+            <column name="login" value="user"/>
+            <column name="user_password" value=""/>
+            <column name="user_balance" value="0"/>
+            <column name="user_status" value="LOGOUT"/>
+            <column name="user_role" value="USER"/>
+        </insert>
+        <insert tableName="users">
+            <column name="user_id" value="1"/>
+            <column name="login" value="admin"/>
+            <column name="user_password" value=""/>
+            <column name="user_balance" value="0"/>
+            <column name="user_status" value="LOGOUT"/>
+            <column name="user_role" value="ADMIN"/>
+        </insert>
+
+        <createTable tableName="transactions">
+            <column name="transaction_id" type="VARCHAR">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="user_id" type="VARCHAR"/>
+            <column name="transaction_amount" type="DOUBLE"/>
+            <column name="transaction_type" type="VARCHAR"/>
+        </createTable>
+        <addForeignKeyConstraint
+                baseTableName="transactions"
+                baseColumnNames="user_id"
+                referencedTableName="users"
+                referencedColumnNames="user_id"
+                constraintName="fk_user_transactions"
+                onDelete="CASCADE"
+                onUpdate="CASCADE"
+        />
+        <createTable tableName="operations">
+            <column name="operation_id" type="VARCHAR">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="user_id" type="VARCHAR"/>
+            <column name="operation_type" type="VARCHAR"/>
+            <column name="operation_date" type="DATE"/>
+            <column name="transaction_id" type="VARCHAR"/>
+            <column name="transaction_amount" type="DOUBLE"/>
+            <column name="transaction_type" type="VARCHAR"/>
+        </createTable>
+        <addForeignKeyConstraint
+                baseTableName="operations"
+                baseColumnNames="user_id"
+                referencedTableName="users"
+                referencedColumnNames="user_id"
+                constraintName="fk_users_operations"
+                onDelete="CASCADE"
+                onUpdate="CASCADE"
+        />
+        <addForeignKeyConstraint
+                baseTableName="operations"
+                baseColumnNames="transaction_id"
+                referencedTableName="transactions"
+                referencedColumnNames="transaction_id"
+                constraintName="fk_transactions_operations"
+                onDelete="CASCADE"
+                onUpdate="CASCADE"
+        />
+    </changeSet>
+</databaseChangeLog>
