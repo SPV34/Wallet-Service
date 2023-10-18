@@ -1,8 +1,7 @@
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
-                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd
-http://www.liquibase.org/xml/ns/dbchangelog ">
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
+
     <changeSet id="1" author="admin">
         <createTable tableName="users">
             <column name="user_id" type="VARCHAR">
@@ -17,15 +16,15 @@ http://www.liquibase.org/xml/ns/dbchangelog ">
         <insert tableName="users">
             <column name="user_id" value="1"/>
             <column name="login" value="user"/>
-            <column name="user_password" value=""/>
+            <column name="user_password" value="EE11CBB19052E40B07AAC0CA060C23EE"/>
             <column name="user_balance" value="0"/>
             <column name="user_status" value="LOGOUT"/>
             <column name="user_role" value="USER"/>
         </insert>
         <insert tableName="users">
-            <column name="user_id" value="1"/>
+            <column name="user_id" value="2"/>
             <column name="login" value="admin"/>
-            <column name="user_password" value=""/>
+            <column name="user_password" value="21232F297A57A5A743894A0E4A801FC3"/>
             <column name="user_balance" value="0"/>
             <column name="user_status" value="LOGOUT"/>
             <column name="user_role" value="ADMIN"/>
@@ -35,13 +34,13 @@ http://www.liquibase.org/xml/ns/dbchangelog ">
             <column name="transaction_id" type="VARCHAR">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="user_id" type="VARCHAR"/>
+            <column name="transaction_user_id" type="VARCHAR"/>
             <column name="transaction_amount" type="DOUBLE"/>
             <column name="transaction_type" type="VARCHAR"/>
         </createTable>
         <addForeignKeyConstraint
                 baseTableName="transactions"
-                baseColumnNames="user_id"
+                baseColumnNames="transaction_user_id"
                 referencedTableName="users"
                 referencedColumnNames="user_id"
                 constraintName="fk_user_transactions"
@@ -52,16 +51,16 @@ http://www.liquibase.org/xml/ns/dbchangelog ">
             <column name="operation_id" type="VARCHAR">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="user_id" type="VARCHAR"/>
+            <column name="operation_user_id" type="VARCHAR"/>
             <column name="operation_type" type="VARCHAR"/>
             <column name="operation_date" type="DATE"/>
-            <column name="transaction_id" type="VARCHAR"/>
-            <column name="transaction_amount" type="DOUBLE"/>
-            <column name="transaction_type" type="VARCHAR"/>
+            <column name="operation_transaction_id" type="VARCHAR"/>
+            <column name="operation_transaction_amount" type="DOUBLE"/>
+            <column name="operation_transaction_type" type="VARCHAR"/>
         </createTable>
         <addForeignKeyConstraint
                 baseTableName="operations"
-                baseColumnNames="user_id"
+                baseColumnNames="operation_user_id"
                 referencedTableName="users"
                 referencedColumnNames="user_id"
                 constraintName="fk_users_operations"
@@ -70,7 +69,7 @@ http://www.liquibase.org/xml/ns/dbchangelog ">
         />
         <addForeignKeyConstraint
                 baseTableName="operations"
-                baseColumnNames="transaction_id"
+                baseColumnNames="operation_transaction_id"
                 referencedTableName="transactions"
                 referencedColumnNames="transaction_id"
                 constraintName="fk_transactions_operations"
