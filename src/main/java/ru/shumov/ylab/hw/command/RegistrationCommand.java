@@ -53,7 +53,7 @@ public class RegistrationCommand extends AbstractCommand{
 
         user.setUsername(username);
         user.setPassword(passwordMd5);
-        userService.create(username, user);
+        userService.create(user);
         System.out.println("Registration successful.");
 
         Operation operation = new Operation();

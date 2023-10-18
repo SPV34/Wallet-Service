@@ -6,6 +6,7 @@ import ru.shumov.ylab.hw.repository.UserRepository;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.Collection;
+import java.util.List;
 
 public class UserService {
     private UserRepository userRepository;
@@ -16,28 +17,17 @@ public class UserService {
         this.md5Service = md5Service;
     }
 
-    public void create(String id, User user) {
-        userRepository.persist(id, user);
+    public void create(User user) {
+        userRepository.persist(user);
+    }
+    public void update(User user) {
+        userRepository.merge(user);
     }
     public User findOne (String id) {
         return userRepository.findOne(id);
     }
 
-    public Collection<User> findAll() {
+    public List<User> findAll() {
         return userRepository.findAll();
-    }
-
-    public void adminUserCreation() throws NoSuchAlgorithmException {
-        User user = new User();
-        user.setPassword(md5Service.md5("user"));
-        user.setUsername("user");
-        user.setRole(Role.USER);
-        create(user.getUsername(), user);
-
-        User admin = new User();
-        admin.setPassword(md5Service.md5("admin"));
-        admin.setUsername("admin");
-        admin.setRole(Role.ADMINISTRATOR);
-        create(admin.getUsername(), admin);
     }
 }

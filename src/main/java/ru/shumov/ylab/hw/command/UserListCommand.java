@@ -6,6 +6,7 @@ import ru.shumov.ylab.hw.enums.Role;
 import ru.shumov.ylab.hw.service.UserService;
 
 import java.util.Collection;
+import java.util.List;
 
 public class UserListCommand extends AbstractCommand{
     private final String name = "user list";
@@ -27,7 +28,7 @@ public class UserListCommand extends AbstractCommand{
             System.out.println("Access denied.");
             return;
         }
-        Collection<User> userCollection = userService.findAll();
+        List<User> userCollection = userService.findAll();
         for(User userFromCollection : userCollection) {
             System.out.println(userFromCollection);
         }

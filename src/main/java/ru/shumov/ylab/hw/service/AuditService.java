@@ -6,6 +6,7 @@ import ru.shumov.ylab.hw.repository.AuditRepository;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 public class AuditService {
 
@@ -19,14 +20,7 @@ public class AuditService {
         auditRepository.persist(operation);
     }
 
-    public ArrayList<Operation> getList(User user) {
-        Collection<Operation> operationCollection = auditRepository.getList();
-        ArrayList<Operation> operationArrayList = new ArrayList<>();
-        for(Operation operation : operationCollection) {
-            if(operation.getUserId().equals(user.getUserID())) {
-                operationArrayList.add(operation);
-            }
-        }
-        return operationArrayList;
+    public List<Operation> getList(User user) {
+        return auditRepository.getList(user.getUserID());
     }
 }

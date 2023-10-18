@@ -52,6 +52,7 @@ public class CreditCommand extends AbstractCommand{
         operation.setDate(new Date());
         operation.setUserId(user.getUserID());
         auditService.create(operation);
+        bootstrap.getUserService().update(user);
     }
     public Role getRole() {
         return role;

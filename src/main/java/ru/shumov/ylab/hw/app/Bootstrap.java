@@ -23,7 +23,6 @@ public class Bootstrap {
     private boolean work = true;
     public void init() throws NoSuchAlgorithmException {
         commandService.commandsInit();
-        userService.adminUserCreation();
         start();
     }
 

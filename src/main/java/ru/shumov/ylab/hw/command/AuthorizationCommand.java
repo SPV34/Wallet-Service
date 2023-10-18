@@ -52,6 +52,7 @@ public class AuthorizationCommand extends AbstractCommand{
         operation.setDate(new Date());
         operation.setUserId(user.getUserID());
         auditService.create(operation);
+        userService.update(user);
     }
     public Role getRole() {
         return role;

@@ -25,11 +25,13 @@ public class LogOutCommand extends AbstractCommand{
             System.out.println("You are not logged in.");
             return;
         }
+        user.setStatus(AuthorizationStatus.LOGOUT);
         Operation operation = new Operation();
         operation.setOperationType(OperationType.LOGOUT);
         operation.setDate(new Date());
         operation.setUserId(user.getUserID());
         auditService.create(operation);
+        bootstrap.getUserService().update(user);
 
         bootstrap.setUser(new User());
         System.out.println("You have successfully logged out of your account.");

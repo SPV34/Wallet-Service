@@ -10,7 +10,7 @@ public class User {
     private String username;
     private String password;
     private double balance;
-    private final String userID = String.valueOf(UUID.randomUUID());
+    private String userID = String.valueOf(UUID.randomUUID());
     private AuthorizationStatus status = AuthorizationStatus.LOGOUT;
     private  Role role = Role.USER;
     public String getUsername() {return username;}
@@ -26,6 +26,10 @@ public class User {
     }
     public Role getRole() {
         return role;
+    }
+
+    public void setUserID(String userID) {
+        this.userID = userID;
     }
 
     public String getUserID() {

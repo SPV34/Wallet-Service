@@ -2,12 +2,12 @@ package ru.shumov.ylab.hw.entity;
 
 import ru.shumov.ylab.hw.enums.OperationType;
 
+
 import java.util.Date;
 import java.util.UUID;
-
 public class Operation {
-    private final String id = UUID.randomUUID().toString();
-    private  String userId;
+    private String id = UUID.randomUUID().toString();
+    private String userId;
     private OperationType operationType;
     private Date date;
 
@@ -47,6 +47,10 @@ public class Operation {
 
     public void setTransaction(Transaction transaction) {
         this.transaction = transaction;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     @Override

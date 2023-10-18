@@ -7,6 +7,7 @@ import ru.shumov.ylab.hw.service.AuditService;
 import ru.shumov.ylab.hw.service.UserService;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class AuditListCommand extends AbstractCommand{
     private final String name = "audit list";
@@ -36,7 +37,7 @@ public class AuditListCommand extends AbstractCommand{
             System.out.println("There is no user with this name.");
             return;
         }
-        ArrayList<Operation> operations = auditService.getList(userService.findOne(username));
+        List<Operation> operations = auditService.getList(userService.findOne(username));
         for(Operation operation : operations) {
             System.out.println(operation.toString());
         }
